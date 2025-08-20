@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+    Logout
+{% endblock title %}
+
+{% block content %}
+    <h1>logged out</h1>
+
+    <p>you have been logged out<a href="{% url 'login' %}">Login here</a></p>
+{% endblock content %}
