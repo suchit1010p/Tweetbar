@@ -15,65 +15,69 @@
     <title>{% block title %} chai and django {% endblock title %}</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
-        <!-- Brand -->
         <a class="navbar-brand" href="#">Tweetbar</a>
-
-        <!-- Search bar (always visible) -->
-        <form
-          class="d-flex mx-auto"
-          role="search"
-          method="get"
-          action="{% url 'search' %}"
-        >
-          <input
-            class="form-control me-2"
-            type="search"
-            name="q"
-            placeholder="Search tweet"
-            aria-label="Search"
-            value="{{ search_input }}"
-          />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-
-        <!-- Toggle button for mobile (hamburger) -->
         <button
           class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarContent"
-          aria-controls="navbarContent"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-
-        <!-- Collapsible content -->
-        <div class="collapse navbar-collapse" id="navbarContent">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <!-- Home button -->
-            <li class="nav-item me-2">
-              <a href="{% url 'tweet_list' %}" class="btn btn-primary">Home</a>
-            </li>
-
-            <!-- Auth buttons -->
-            <li class="nav-item">
-              {% if user.is_authenticated %}
-              <form action="{% url 'logout' %}" method="post" class="d-inline">
-                {% csrf_token %}
-                <button class="btn btn-danger" type="submit">Logout</button>
-              </form>
-              {% else %}
-              <a href="{% url 'login' %}" class="btn btn-success">Login</a>
-              {% endif %}
-            </li>
-          </ul>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+          <form
+            class="d-flex me-4"
+            role="search"
+            method="get"
+            action="{% url 'search' %}"
+          >
+            <input
+              class="form-control me-2"
+              type="search"
+              name="q"
+              placeholder="Search tweet"
+              aria-label="Search"
+              value="{{ search_input }}"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+          <a href="{% url 'tweet_list' %}" class="btn btn-primary me-4">Home</a>
+          {% if user.is_authenticated %}
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">logout</button>
+          </form>
+          {% else %}
+          <a href="{% url 'login' %}" class="btn btn-success">Login</a> 
+          {% endif %}
         </div>
       </div>
     </nav>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggler = document.querySelector(".navbar-toggler");
+        const menu = document.getElementById("navbarSupportedContent");
+
+        toggler.addEventListener("click", function () {
+          if (menu.classList.contains("show")) {
+            // Hide menu
+            menu.classList.remove("show");
+          } else {
+            // Show menu
+            menu.classList.add("show");
+          }
+        });
+      });
+    </script>
 
     <div class="container">{% block content %} {% endblock content %}</div>
   </body>
